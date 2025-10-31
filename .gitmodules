@@ -1,0 +1,3 @@
+[submodule "gegelati"]
+	path = gegelati
+	url = git@github.com:gegelati/gegelati.git
