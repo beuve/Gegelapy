@@ -66,8 +66,8 @@ public:
                double max_const_value = 1.0);
 
     void train(int generations);
-    void save(const std::string& path, bool clean = false);
-    void load(const std::string& path);
+    void save(const char* path, bool clean = false);
+    void load(const char* path);
     void step();
 
 private:

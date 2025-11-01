@@ -92,18 +92,18 @@ void GymTrainer::train(int generations) {
     }
 }
 
-void GymTrainer::save(const std::string& path, bool clean) {
+void GymTrainer::save(const char* path, bool clean) {
     if (clean) {
       agent->keepBestPolicy();
       agent->getTPGGraph()->clearProgramIntrons();
     }
 
-    File::TPGGraphDotExporter dotExporter = File::TPGGraphDotExporter(path.c_str(), *agent->getTPGGraph());
+    File::TPGGraphDotExporter dotExporter = File::TPGGraphDotExporter(path, *agent->getTPGGraph());
     dotExporter.print();
 }
 
-void GymTrainer::load(const std::string& path) {
-  File::TPGGraphDotImporter dotImporter = File::TPGGraphDotImporter(path.c_str(), 
+void GymTrainer::load(const char* path) {
+  File::TPGGraphDotImporter dotImporter = File::TPGGraphDotImporter(path, 
                                                                     agent->getTPGGraph()->getEnvironment(), 
                                                                     *agent->getTPGGraph());
 	dotImporter.importGraph();
