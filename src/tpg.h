@@ -1,0 +1,67 @@
+#include "gymTrainer.h"
+
+namespace py = pybind11;
+
+void add_tpg(py::module_ m) {
+  py::class_<GymTrainer>(m, "TPG")
+    .def(py::init<GymEnvironment&, const std::vector<Instructions::Instruction*>&,
+                  size_t, double, uint64_t, uint64_t, uint64_t, double, uint64_t,
+                  uint64_t, size_t, size_t, size_t, size_t, std::string, bool,
+                  uint64_t, size_t, double, size_t, double, double, double, double,
+                  double, size_t, size_t, double, double, double, double, bool, double,
+                  double, bool, bool, bool, size_t, size_t, size_t, double, double,
+                  double, double, double, double, double, double>(),
+         py::arg("env"),
+         py::arg("instructions"),
+         py::kw_only(),
+         py::arg("archive_size") = 50,
+         py::arg("archiving_probability") = 0.05,
+         py::arg("nb_iterations_per_policy_Evaluation") = 5,
+         py::arg("nb_iterations_per_policy_validation") = 5,
+         py::arg("max_nb_actions_per_eval") = 1000,
+         py::arg("ratio_deleted_roots") = 0.5,
+         py::arg("size_tournament") = 5,
+         py::arg("nb_generations") = 500,
+         py::arg("max_nb_evaluation_per_policy") = 1000,
+         py::arg("nb_iterations_per_job") = 1,
+         py::arg("nb_registers") = 8,
+         py::arg("nb_program_constant") = 0,
+         py::arg("activation_function") = "none",
+         py::arg("do_validation") = false,
+         py::arg("step_validation") = 1,
+         py::arg("nb_roots") = 100,
+         py::arg("ratio_teams_over_actions") = 1.0,
+         py::arg("max_init_outgoing_edges") = 3,
+         py::arg("prob_change_action_class") = 0.1,
+         py::arg("prob_action_edge_deletion") = 0.7,
+         py::arg("prob_action_edge_addition") = 0.7,
+         py::arg("prob_mutate_action_program") = 0.1,
+         py::arg("prob_swap_action_program") = 0.1,
+         py::arg("nb_action_edge_init") = 1,
+         py::arg("max_outgoing_edges") = 5,
+         py::arg("prob_edge_deletion") = 0.7,
+         py::arg("prob_edge_addition") = 0.7,
+         py::arg("prob_program_mutation") = 0.2,
+         py::arg("prob_context_over_action_program") = 0.5,
+         py::arg("force_program_behavior_change_on_mutation") = false,
+         py::arg("prob_edge_destination_change") = 0.1,
+         py::arg("prob_edge_destination_is_action") = 0.5,
+         py::arg("use_action_program") = false,
+         py::arg("use_multi_action_program") = false,
+         py::arg("team_access_all_actions") = true,
+         py::arg("max_program_size") = 96,
+         py::arg("init_min_program_size") = 1,
+         py::arg("init_max_program_size") = 10,
+         py::arg("prob_delete") = 0.5,
+         py::arg("prob_add") = 0.5,
+         py::arg("prob_mutate") = 1.0,
+         py::arg("prob_swap") = 1.0,
+         py::arg("prob_constant_mutation") = 0.5,
+         py::arg("prob_new_program") = 0.0,
+         py::arg("min_const_value") = -1.0,
+         py::arg("max_const_value") = 1.0)
+    .def("train", &GymTrainer::train)
+    .def("step", &GymTrainer::step)
+    .def("save", &GymTrainer::save, py::arg("path"), py::arg("clean") = false)
+    .def("load", &GymTrainer::load);
+}
