@@ -34,11 +34,17 @@ import gegelapy
 # Create a Gym environment wrapper
 env = gegelapy.GymEnvironment("CartPole-v1")
 
+# Select the instructions the TPG will have access to
+instructions = [gegelapy.add, 
+                gegelapy.sub, 
+                gegelapy.mul, 
+                gegelapy.div]
+
 # Initialize a trainer with the environment
-trainer = gegelapy.GymTrainer(env)
+trainer = gegelapy.TPG(env, instructions, max_init_outgoing_edges = 2)
 
 # Train for a few generations
-trainer.train(generations=10)
+trainer.train(10)
 
 # Save the trained model
 trainer.save("cartpole_best.tpg")
