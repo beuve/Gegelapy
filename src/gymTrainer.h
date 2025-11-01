@@ -69,6 +69,7 @@ public:
     void save(const char* path, bool clean = false);
     void load(const char* path);
     void step();
+    void compile(const char* path);
 
 private:
     const GymEnvironment& env;

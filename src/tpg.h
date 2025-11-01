@@ -63,5 +63,6 @@ void add_tpg(py::module_ m) {
     .def("train", &GymTrainer::train)
     .def("step", &GymTrainer::step)
     .def("save", &GymTrainer::save, py::arg("path"), py::arg("clean") = false)
-    .def("load", &GymTrainer::load);
+    .def("load", &GymTrainer::load)
+    .def("compile", &GymTrainer::compile);
 }

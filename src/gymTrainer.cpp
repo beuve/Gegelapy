@@ -1,4 +1,6 @@
 #include "gymTrainer.h"
+#include "codeGen/tpgGenerationEngineFactory.h"
+#include "codeGen/tpgGenerationEngine.h"
 #include <iostream>
 
 GymTrainer::GymTrainer(
@@ -111,4 +113,35 @@ void GymTrainer::load(const char* path) {
 
 void GymTrainer::step() {
     agent->trainOneGeneration(currentGeneration++);
+}
+
+void GymTrainer::compile(const char* path) {
+  namespace fs = std::filesystem;
+
+  fs::path dest_dir(path);
+  fs::path dest_src_dir = dest_dir / "src";
+
+  // Is this necessary?
+  agent->keepBestPolicy();
+  agent->getTPGGraph()->clearProgramIntrons();
+
+  // Get gegelapy installation path to retrieve the codegen folder
+  py::gil_scoped_acquire acquire;
+  py::object gegelapy_module = py::module::import("gegelapy");
+  fs::path gegelapy_path = gegelapy_module.attr("__file__").cast<std::string>();
+  std::filesystem::path codegen_src = fs::path(gegelapy_path).parent_path() / "codegen";
+
+  // Copy the codegen folder to the destination path
+  const auto copyOptions = fs::copy_options::recursive
+                         | fs::copy_options::update_existing;
+  fs::copy(codegen_src, dest_dir, copyOptions);
+
+  // Make sure the path ends with a "/" (or a "\" for Windows)
+  std::string c_src_dir = dest_src_dir.string();
+  if (!c_src_dir.empty() && c_src_dir.back() != '/' && c_src_dir.back() != '\\')
+      c_src_dir += fs::path::preferred_separator;
+
+  CodeGen::TPGGenerationEngineFactory factory(CodeGen::TPGGenerationEngineFactory::switchMode);
+	std::unique_ptr<CodeGen::TPGGenerationEngine> tpggen = factory.create("generated_tpg", *agent->getTPGGraph(), c_src_dir);
+	tpggen->generateTPGGraph();
 }
