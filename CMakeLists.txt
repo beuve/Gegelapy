@@ -18,6 +18,8 @@ add_library(gegelapy MODULE
     src/gegelapy.cpp
     src/gymEnvironment.cpp
     src/gymTrainer.cpp
+    src/instructions.cpp
+    src/tpg.cpp
 )
 
 # Include Gegelati headers

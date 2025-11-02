@@ -1,8 +1,8 @@
 #ifndef GYM_ENVIRONMENT_WRAPPER_H
 #define GYM_ENVIRONMENT_WRAPPER_H
 
-#include "learn/learningEnvironment.h"
 #include "data/arrayWrapper.h"
+#include "learn/learningEnvironment.h"
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -31,11 +31,11 @@ public:
   getDataSources() override;
 
 private:
-  py::object gymEnv;      // Python Gym environment
+  py::object gymEnv; // Python Gym environment
   std::unique_ptr<Data::ArrayWrapper<double>> observations;
   std::vector<double> obs;
-  double reward;          // Last reward
-  bool done;              // Terminal state
+  double reward; // Last reward
+  bool done;     // Terminal state
 };
 
 #endif
