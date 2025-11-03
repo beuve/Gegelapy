@@ -32,7 +32,6 @@ target_link_libraries(gegelapy PRIVATE GEGELATI pybind11::module)
 
 # Remove "lib" prefix for Python import
 set_target_properties(gegelapy PROPERTIES
-    PREFIX ""
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gegelapy
     BUILD_WITH_INSTALL_RPATH TRUE
 )

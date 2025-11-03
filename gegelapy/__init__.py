@@ -1,1 +1,1 @@
-from .gegelapy import *
+from .libgegelapy import *
