@@ -33,11 +33,19 @@ target_link_libraries(gegelapy PRIVATE GEGELATI pybind11::module)
 # Remove "lib" prefix for Python import
 set_target_properties(gegelapy PROPERTIES
     PREFIX ""
-    OUTPUT_NAME "gegelapy"
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gegelapy
     BUILD_WITH_INSTALL_RPATH TRUE
-    INSTALL_RPATH "@loader_path"
 )
+
+if(APPLE)
+    set_target_properties(gegelapy PROPERTIES
+        INSTALL_RPATH "@loader_path"
+    )
+elseif(UNIX)
+    set_target_properties(gegelapy PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+    ) 
+endif()
 
 add_custom_command(TARGET gegelapy POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different

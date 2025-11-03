@@ -4,6 +4,7 @@
 #include "file/tpgGraphDotExporter.h"
 #include "file/tpgGraphDotImporter.h"
 #include "learn/parallelLearningAgent.h"
+#include <filesystem>
 #include <iostream>
 
 GymTrainer::GymTrainer(
