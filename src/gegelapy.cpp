@@ -7,7 +7,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(libgegelapy, m) {
+PYBIND11_MODULE(gegelapy, m) {
   m.doc() = "Python bindings for Gegelati with Gym integration";
 
   add_instructions(m);

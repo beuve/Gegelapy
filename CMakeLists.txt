@@ -14,7 +14,7 @@ add_subdirectory(gegelati)
 find_package(pybind11 REQUIRED)
 
 # Create Python module
-add_library(gegelapy MODULE
+pybind11_add_module(gegelapy
     src/gegelapy.cpp
     src/gymEnvironment.cpp
     src/gymTrainer.cpp
@@ -28,22 +28,17 @@ target_include_directories(gegelapy PRIVATE
 )
 
 # Link Gegelati library and pybind11
-target_link_libraries(gegelapy PRIVATE GEGELATI pybind11::module)
+target_link_libraries(gegelapy PRIVATE GEGELATI)
 
-# Remove "lib" prefix for Python import
 set_target_properties(gegelapy PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gegelapy
     BUILD_WITH_INSTALL_RPATH TRUE
 )
 
 if(APPLE)
-    set_target_properties(gegelapy PROPERTIES
-        INSTALL_RPATH "@loader_path"
-    )
+    set_target_properties(gegelapy PROPERTIES INSTALL_RPATH "@loader_path")
 elseif(UNIX)
-    set_target_properties(gegelapy PROPERTIES
-        INSTALL_RPATH "$ORIGIN"
-    ) 
+    set_target_properties(gegelapy PROPERTIES INSTALL_RPATH "$ORIGIN")
 endif()
 
 add_custom_command(TARGET gegelapy POST_BUILD
