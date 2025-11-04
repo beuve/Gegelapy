@@ -11,8 +11,9 @@ namespace py = pybind11;
 
 class GymEnvironment : public Learn::LearningEnvironment {
 public:
-  GymEnvironment(const std::string &gymEnvName);
-  GymEnvironment(const py::object &gymEnv);
+  GymEnvironment(const std::string &gymEnvName, py::args args,
+                 const py::kwargs &kwargs);
+  Learn::LearningEnvironment *clone() const override;
 
   // Inherited from LearningEnvironment
   void reset(size_t seed = 0,
@@ -31,9 +32,15 @@ public:
   getDataSources() override;
 
 private:
-  py::object gymEnv; // Python Gym environment
   std::unique_ptr<Data::ArrayWrapper<double>> observations;
   std::vector<double> obs;
+
+  // Python Gym environment
+  py::object gymEnv;
+  std::string envName;
+  py::args envArgs;
+  const py::kwargs &envKwargs;
+
   double reward; // Last reward
   bool done;     // Terminal state
 };

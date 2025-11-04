@@ -1,27 +1,24 @@
 #include "gymEnvironment.h"
 
-GymEnvironment::GymEnvironment(const std::string &gymEnvName)
+GymEnvironment::GymEnvironment(const std::string &gymEnvName, py::args args,
+                               const py::kwargs &kwargs)
     : Learn::LearningEnvironment(py::module::import("gymnasium")
-                                     .attr("make")(gymEnvName)
+                                     .attr("make")(gymEnvName, *args, **kwargs)
                                      .attr("action_space")
                                      .attr("n")
                                      .cast<uint64_t>(),
                                  true),
-      reward(0.0), done(false) {
+      reward(0.0), done(false), envArgs(args), envKwargs(kwargs),
+      envName(gymEnvName) {
   py::gil_scoped_acquire acquire;
   py::module gym = py::module::import("gymnasium");
-  gymEnv = gym.attr("make")(gymEnvName);
+  gymEnv = gym.attr("make")(gymEnvName, *args, **kwargs);
   reset();
   observations = std::make_unique<Data::ArrayWrapper<double>>(obs.size(), &obs);
 }
 
-GymEnvironment::GymEnvironment(const py::object &gymEnv)
-    : Learn::LearningEnvironment(1, true), reward(0.0), done(false) {
-  py::gil_scoped_acquire acquire;
-  py::module gym = py::module::import("gymnasium");
-  this->gymEnv = gymEnv;
-  reset();
-  observations = std::make_unique<Data::ArrayWrapper<double>>(obs.size(), &obs);
+Learn::LearningEnvironment *GymEnvironment::clone() const {
+  return new GymEnvironment(envName, envArgs, envKwargs);
 }
 
 void GymEnvironment::reset(size_t seed, Learn::LearningMode mode,

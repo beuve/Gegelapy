@@ -7,7 +7,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(gegelapy, m) {
+PYBIND11_MODULE(gegelapy, m, py::mod_gil_not_used()) {
   m.doc() = "Python bindings for Gegelati with Gym integration";
 
   add_instructions(m);
@@ -23,7 +23,8 @@ PYBIND11_MODULE(gegelapy, m) {
       .def("isTerminal", &Learn::LearningEnvironment::isTerminal);
 
   py::class_<GymEnvironment, Learn::LearningEnvironment>(m, "GymEnvironment")
-      .def(py::init<const std::string &>(), py::arg("gymEnvName"))
+      .def(py::init<const std::string &, py::args, py::kwargs &>(),
+           py::arg("gymEnvName"))
       .def("reset", &GymEnvironment::reset)
       .def("step", &GymEnvironment::doAction)
       .def("render", &GymEnvironment::render)
