@@ -7,7 +7,14 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(gegelapy, m, py::mod_gil_not_used()) {
+#if (PYBIND11_VERSION_MAJOR > 2) ||                                            \
+    (PYBIND11_VERSION_MAJOR == 2 && PYBIND11_VERSION_MINOR >= 13)
+#define MODULE(name, m) PYBIND11_MODULE(name, m, py::mod_gil_not_used())
+#else
+#define MODULE(name, m) PYBIND11_MODULE(name, m)
+#endif
+
+MODULE(gegelapy, m) {
   m.doc() = "Python bindings for Gegelati with Gym integration";
 
   add_instructions(m);
