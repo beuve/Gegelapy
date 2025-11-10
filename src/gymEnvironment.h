@@ -11,7 +11,10 @@ namespace py = pybind11;
 
 class GymEnvironment : public Learn::LearningEnvironment {
 public:
-  GymEnvironment(const std::string &gymEnvName, py::args args,
+  GymEnvironment(py::args args, const py::kwargs &kwargs);
+  GymEnvironment(const py::object &gymEnv, py::args args,
+                 const py::kwargs &kwargs);
+  GymEnvironment(const py::function &initEnvCallback, py::args args,
                  const py::kwargs &kwargs);
   Learn::LearningEnvironment *clone() const override;
 
@@ -37,7 +40,7 @@ private:
 
   // Python Gym environment
   py::object gymEnv;
-  std::string envName;
+  py::function initEnvCallback;
   py::args envArgs;
   const py::kwargs &envKwargs;
 

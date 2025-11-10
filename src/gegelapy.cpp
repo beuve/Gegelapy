@@ -30,8 +30,9 @@ MODULE(gegelapy, m) {
       .def("isTerminal", &Learn::LearningEnvironment::isTerminal);
 
   py::class_<GymEnvironment, Learn::LearningEnvironment>(m, "GymEnvironment")
-      .def(py::init<const std::string &, py::args, py::kwargs &>(),
-           py::arg("gymEnvName"))
+      .def(py::init<py::function, py::args, py::kwargs &>())
+      .def(py::init<py::object, py::args, py::kwargs &>())
+      .def(py::init<py::args, py::kwargs &>())
       .def("reset", &GymEnvironment::reset)
       .def("step", &GymEnvironment::doAction)
       .def("render", &GymEnvironment::render)

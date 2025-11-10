@@ -1,24 +1,56 @@
 #include "gymEnvironment.h"
+#include <memory>
 
-GymEnvironment::GymEnvironment(const std::string &gymEnvName, py::args args,
-                               const py::kwargs &kwargs)
+GymEnvironment::GymEnvironment(py::args args, const py::kwargs &kwargs)
     : Learn::LearningEnvironment(py::module::import("gymnasium")
-                                     .attr("make")(gymEnvName, *args, **kwargs)
+                                     .attr("make")(*args, **kwargs)
                                      .attr("action_space")
                                      .attr("n")
                                      .cast<uint64_t>(),
                                  true),
-      reward(0.0), done(false), envArgs(args), envKwargs(kwargs),
-      envName(gymEnvName) {
+      reward(0.0), done(false), envArgs(args), envKwargs(kwargs) {
   py::gil_scoped_acquire acquire;
   py::module gym = py::module::import("gymnasium");
-  gymEnv = gym.attr("make")(gymEnvName, *args, **kwargs);
+  initEnvCallback = gym.attr("make");
+  this->gymEnv = initEnvCallback(*args, **kwargs);
+  reset();
+  observations = std::make_unique<Data::ArrayWrapper<double>>(obs.size(), &obs);
+}
+
+GymEnvironment::GymEnvironment(const py::object &gymEnv, py::args args,
+                               const py::kwargs &kwargs)
+    : Learn::LearningEnvironment(gymEnv.attr("__init__")(*args, **kwargs)
+                                     .attr("action_space")
+                                     .attr("n")
+                                     .cast<uint64_t>(),
+                                 true),
+      reward(0.0), done(false), envArgs(args), envKwargs(kwargs) {
+  py::gil_scoped_acquire acquire;
+  py::module gym = py::module::import("gymnasium");
+  initEnvCallback = gymEnv.attr("__init__");
+  this->gymEnv = initEnvCallback(*args, **kwargs);
+  reset();
+  observations = std::make_unique<Data::ArrayWrapper<double>>(obs.size(), &obs);
+}
+
+GymEnvironment::GymEnvironment(const py::function &initEnvCallback,
+                               py::args args, const py::kwargs &kwargs)
+    : Learn::LearningEnvironment(initEnvCallback(*args, **kwargs)
+                                     .attr("action_space")
+                                     .attr("n")
+                                     .cast<uint64_t>(),
+                                 true),
+      reward(0.0), done(false), envArgs(args), envKwargs(kwargs) {
+  py::gil_scoped_acquire acquire;
+  py::module gym = py::module::import("gymnasium");
+  this->initEnvCallback = initEnvCallback;
+  this->gymEnv = initEnvCallback(*args, **kwargs);
   reset();
   observations = std::make_unique<Data::ArrayWrapper<double>>(obs.size(), &obs);
 }
 
 Learn::LearningEnvironment *GymEnvironment::clone() const {
-  return new GymEnvironment(envName, envArgs, envKwargs);
+  return new GymEnvironment(initEnvCallback, envArgs, envKwargs);
 }
 
 void GymEnvironment::reset(size_t seed, Learn::LearningMode mode,
