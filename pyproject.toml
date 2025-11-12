@@ -1,3 +1,10 @@
 [build-system]
-requires = ["setuptools", "wheel", "cmake", "pybind11"]
-build-backend = "setuptools.build_meta"
+requires = ["scikit-build-core>=0.5.0", "pybind11"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "gegelapy"
+version = "0.1.0"
+
+[tool.scikit-build]
+wheel.expand-macos-universal-tags = true
