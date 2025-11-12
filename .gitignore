@@ -3,3 +3,4 @@ gegelapy/libGEGELATI.2.0.0.dylib
 compile_commands.json
 build/
 .cache
+*.egg-info

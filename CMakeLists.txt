@@ -31,7 +31,6 @@ target_include_directories(gegelapy PRIVATE
 target_link_libraries(gegelapy PRIVATE GEGELATI)
 
 set_target_properties(gegelapy PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gegelapy
     BUILD_WITH_INSTALL_RPATH TRUE
 )
 
@@ -41,8 +40,6 @@ elseif(UNIX)
     set_target_properties(gegelapy PROPERTIES INSTALL_RPATH "$ORIGIN")
 endif()
 
-add_custom_command(TARGET gegelapy POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    $<TARGET_FILE:GEGELATI>
-    $<TARGET_FILE_DIR:gegelapy>
-)
+install(TARGETS gegelapy DESTINATION gegelapy)
+
+install(TARGETS GEGELATI DESTINATION gegelapy)
