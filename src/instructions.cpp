@@ -1,6 +1,12 @@
 #include "instructions.h"
 #include "instructions/lambdaInstruction.h"
 #include <algorithm>
+
+#ifdef _MSC_VER
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#define _USE_MATH_DEFINES
+#endif
 #include <cmath>
 
 void add_instructions(py::module_ m) {
