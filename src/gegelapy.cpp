@@ -31,7 +31,6 @@ MODULE(gegelapy, m) {
 
   py::class_<GymEnvironment, Learn::LearningEnvironment>(m, "GymEnvironment")
       .def(py::init<py::function, py::args, py::kwargs &>())
-      .def(py::init<py::object, py::args, py::kwargs &>())
       .def(py::init<py::args, py::kwargs &>())
       .def("reset", &GymEnvironment::reset)
       .def("step", &GymEnvironment::doAction)
