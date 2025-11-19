@@ -1,6 +1,11 @@
 #include "gymEnvironment.h"
 #include <memory>
 
+#ifdef _MSC_VER
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 GymEnvironment::GymEnvironment(py::args args, const py::kwargs &kwargs)
     : Learn::LearningEnvironment(py::module::import("gymnasium")
                                      .attr("make")(*args, **kwargs)

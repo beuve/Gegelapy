@@ -7,7 +7,7 @@
 typedef SSIZE_T ssize_t;
 #define _USE_MATH_DEFINES
 #endif
-#include <cmath>
+#include <math.h>
 
 void add_instructions(py::module_ m) {
   [[maybe_unused]] auto instruction =

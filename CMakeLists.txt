@@ -8,10 +8,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # Add Gegelati submodule
 set(BUILD_TESTING OFF CACHE BOOL "Disable GEGELATI tests" FORCE)
 set(SKIP_DOXYGEN_BUILD ON CACHE BOOL "Disable GEGELATI doxygen" FORCE)
-add_subdirectory(gegelati)
 
-# Find pybind11 installed
-find_package(pybind11 REQUIRED)
+add_subdirectory(extern/gegelati)
+add_subdirectory(extern/pybind11)
 
 # Create Python module
 pybind11_add_module(gegelapy
@@ -30,15 +29,20 @@ target_include_directories(gegelapy PRIVATE
 # Link Gegelati library and pybind11
 target_link_libraries(gegelapy PRIVATE GEGELATI)
 
+# Where we want the built libraries to go:
+set(GEGELAPY_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/gegelapy)
+
+# Place the compiled pybind module in gegelapy/
 set_target_properties(gegelapy PROPERTIES
-    BUILD_WITH_INSTALL_RPATH TRUE
+    LIBRARY_OUTPUT_DIRECTORY $<1:${GEGELAPY_OUTPUT_DIR}>
+    RUNTIME_OUTPUT_DIRECTORY $<1:${GEGELAPY_OUTPUT_DIR}>
 )
 
-if(APPLE)
-    set_target_properties(gegelapy PROPERTIES INSTALL_RPATH "@loader_path")
-elseif(UNIX)
-    set_target_properties(gegelapy PROPERTIES INSTALL_RPATH "$ORIGIN")
-endif()
+# Place the Gegelati shared library in gegelapy/
+set_target_properties(GEGELATI PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY $<1:${GEGELAPY_OUTPUT_DIR}>
+    RUNTIME_OUTPUT_DIRECTORY $<1:${GEGELAPY_OUTPUT_DIR}>
+)
 
 install(TARGETS gegelapy DESTINATION gegelapy)
 
