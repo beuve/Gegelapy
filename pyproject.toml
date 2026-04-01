@@ -1,5 +1,5 @@
 [build-system]
-requires = ["scikit-build-core>=0.5.0", "pybind11", "ninja", "cmake"]
+requires = ["scikit-build-core>=0.5.0", "pybind11", "cmake"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -7,5 +7,5 @@ name = "gegelapy"
 version = "0.1.0"
 
 [tool.scikit-build]
-cmake.args = ["-G Ninja"]
 wheel.expand-macos-universal-tags = true
+#cmake.args = ["-G Visual Studio 17 2022; sys_platform == 'darwin'"]

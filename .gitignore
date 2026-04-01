@@ -1,5 +1,5 @@
 gegelapy/gegelapy.*.so
-gegelapy/libGEGELATI.2.0.0.dylib
+gegelapy/libGEGELATI*
 compile_commands.json
 build/
 .cache

@@ -1,6 +1,7 @@
 [submodule "gegelati"]
 	path = extern/gegelati
 	url = https://github.com/gegelati/gegelati.git
+  branch = EvolvedGegelati
 [submodule "extern/pybind11"]
 	path = extern/pybind11
 	url = https://github.com/pybind/pybind11.git

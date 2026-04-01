@@ -4,7 +4,7 @@
 // Declare the symbols from generated code
 extern "C" {
     extern double* in1 = nullptr;
-    double inferenceTPG();
+    double inference();
 }
 
 namespace py = pybind11;
@@ -18,7 +18,7 @@ py::object infer(py::array_t<double> input) {
     in1 = static_cast<double*>(buf.ptr);
 
     // Run inference
-    double result = inferenceTPG();
+    double result = inference();
     py::object py_result = py::float_(result);
     return py_result.cast<py::int_>();
 }

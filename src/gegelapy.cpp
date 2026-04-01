@@ -1,8 +1,10 @@
-#include "gymEnvironment.h"
+#include "algorithms/algorithm.h"
 #include "instructions.h"
+#include "trainer.h"
 #include "learn/learningEnvironment.h"
-#include "tpg.h"
+#include "outputConversions.h"
 #include <pybind11/pybind11.h>
+#include <pybind11/pytypes.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
@@ -19,10 +21,9 @@ MODULE(gegelapy, m) {
 
   add_instructions(m);
 
+  m.def("getOutputHandlerFromEnv", getOutputHandlerFromEnv);
+
   py::class_<Learn::LearningEnvironment>(m, "LearningEnvironment")
-      .def("getNbActions", &Learn::LearningEnvironment::getNbActions)
-      .def("isDiscrete", &Learn::LearningEnvironment::isDiscrete)
-      .def("getInitActions", &Learn::LearningEnvironment::getInitActions)
       .def("doAction", &Learn::LearningEnvironment::doAction)
       .def("doActions", &Learn::LearningEnvironment::doActions)
       .def("reset", &Learn::LearningEnvironment::reset)
@@ -34,9 +35,14 @@ MODULE(gegelapy, m) {
       .def(py::init<py::args, py::kwargs &>())
       .def("reset", &GymEnvironment::reset)
       .def("step", &GymEnvironment::doAction)
-      .def("render", &GymEnvironment::render)
+      //.def("render", &ParGymEnvironment::render)
       .def("get_score", &GymEnvironment::getScore)
       .def("is_done", &GymEnvironment::isTerminal);
 
-  add_tpg(m);
+  py::class_<Trainer>(m, "Trainer")
+      .def(py::init<GymEnvironment&, Algorithm::Algorithm&>())
+      .def("train", &Trainer::train)
+      .def("step", &Trainer::step);
+
+  add_algorithms(m);
 }
