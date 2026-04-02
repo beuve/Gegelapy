@@ -26,7 +26,8 @@ pybind11_add_module(gegelapy
     src/trainer.cpp
     src/instructions.cpp
     src/outputConversions.cpp
-    src/algorithms/algorithm.cpp
+    src/algorithms/algorithms.cpp
+    src/selectors/selectors.cpp
 )
 
 target_link_libraries(gegelapy PRIVATE GEGELATI)

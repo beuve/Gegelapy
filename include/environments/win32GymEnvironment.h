@@ -27,8 +27,9 @@ public:
 private:
     void spawnWorker(py::object payload);
     
-    int writeFd, readFd;
-    pid_t childPid;
+    void* writeHandle;        
+    void* readHandle;         
+    void* childProcessHandle; 
     
     double reward;
     bool done;
