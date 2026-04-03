@@ -45,16 +45,18 @@ MODULE(gegelapy, m) {
 
   py::class_<Trainer>(m, "Trainer")
       .def(py::init<GymEnvironment &, Algorithm::Algorithm &,
-                    std::shared_ptr<Selector::Selector>, uint64_t, bool, uint64_t,
-                    size_t, uint64_t, uint64_t, uint64_t>(),
+                    std::shared_ptr<Selector::Selector>, uint64_t, uint64_t, bool, uint64_t,
+                    size_t, uint64_t, uint64_t, uint64_t, std::string, std::string>(),
            py::arg("environment"), py::arg("algorithm"),
-           py::arg("selector") = std::make_shared<PyTruncation>(), py::kw_only(), py::arg("seed") = 0,
+           py::arg("selector") = std::make_shared<PyTruncation>(), py::kw_only(), py::arg("seed") = 0, py::arg("nb_threads") = std::thread::hardware_concurrency(),
            py::arg("do_validation") = false,
            py::arg("max_nb_actions_per_eval") = 300,
            py::arg("max_nb_evaluation_per_policy") = 20,
            py::arg("nb_iterations_per_policy_evaluation") = 3,
            py::arg("nb_iterations_per_policy_validation") = 20,
-           py::arg("step_validation") = 50)
+           py::arg("step_validation") = 50,
+           py::arg("fileLogs") = "",
+           py::arg("filePolicyLogs") = "")
       .def("train", &Trainer::train)
       .def("step", &Trainer::step);
 
