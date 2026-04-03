@@ -52,6 +52,7 @@ void Trainer::train(int generations) {
     policyLogger = std::make_unique<Log::LAPolicyStatsLogger>(*agent, this->algorithm, logPolicyFileStream);
   }
 
+  agent->setNbGen(generations);
   for (int i = 0; i < generations; i++) {
     currentGeneration = i;
     agent->trainOneGeneration(i);
