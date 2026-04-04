@@ -55,6 +55,17 @@ MODULE(gegelapy, m) {
            py::arg("nb_iterations_per_policy_evaluation") = 3,
            py::arg("nb_iterations_per_policy_validation") = 20,
            py::arg("step_validation") = 50)
+      .def(py::init<GymEnvironment &, std::vector<std::reference_wrapper<Algorithm::Algorithm>>,
+                    std::shared_ptr<Selector::Selector>, uint64_t, bool, uint64_t,
+                    size_t, uint64_t, uint64_t, uint64_t>(),
+           py::arg("environment"), py::arg("algorithms"),
+           py::arg("selector") = std::make_shared<PyTruncation>(), py::kw_only(), py::arg("seed") = 0,
+           py::arg("do_validation") = false,
+           py::arg("max_nb_actions_per_eval") = 300,
+           py::arg("max_nb_evaluation_per_policy") = 20,
+           py::arg("nb_iterations_per_policy_evaluation") = 3,
+           py::arg("nb_iterations_per_policy_validation") = 20,
+           py::arg("step_validation") = 50)
       .def("train", &Trainer::train)
       .def("step", &Trainer::step);
 
