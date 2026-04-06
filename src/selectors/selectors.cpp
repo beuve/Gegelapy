@@ -13,7 +13,7 @@ void add_selectors(py::module_ m) {
 
   auto trunament = py::class_<PyTournament, Selector::Selector, std::shared_ptr<PyTournament>>(m, "Tournament");
   trunament.def(py::init<bool, double, uint64_t>(), py::kw_only(),
-                py::arg("are_elites_reproductible") = false,
+                py::arg("are_elites_reproductible") = true,
                 py::arg("ratio_saved_roots") = 0.05,
                 py::arg("size_tournament") = 3);
 

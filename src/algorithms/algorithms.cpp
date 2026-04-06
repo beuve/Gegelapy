@@ -68,11 +68,11 @@ void add_algorithms(py::module_ m) {
           py::arg("instructions"), py::kw_only(), py::arg("nb_agents") = 100,
           py::arg("init_max_program_size") = 5,
           py::arg("init_min_program_size") = 1, py::arg("maxConstValue") = 1.0,
-          py::arg("minConstValue") = -1.0, py::arg("maxProgramSize") = 20,
+          py::arg("minConstValue") = -1.0, py::arg("maxProgramSize") = 40,
           py::arg("nbProgramConstant") = 0, py::arg("nbRegisters") = 8,
           py::arg("pAdd") = 0.5, py::arg("pDelete") = 0.5,
-          py::arg("pConstantMutation") = 0.0, py::arg("pMutate") = 1.0,
-          py::arg("pMutateOutput") = 0.0, py::arg("pNewProgram") = 0.0,
+          py::arg("pConstantMutation") = 0.4, py::arg("pMutate") = 1.0,
+          py::arg("pMutateOutput") = 0.5, py::arg("pNewProgram") = 0.0,
           py::arg("pSwap") = 1.0);
   register_common_methods(lgp);
 
@@ -80,10 +80,10 @@ void add_algorithms(py::module_ m) {
   cgp.def(
       py::init<const std::vector<Instructions::Instruction *> &, size_t, double,
                double, size_t, double, double, size_t, size_t, double>(),
-      py::arg("instructions"), py::kw_only(), py::arg("nbAgents") = 100,
+      py::arg("instructions"), py::kw_only(), py::arg("nb_agents") = 100,
       py::arg("maxConstValue") = 1.0, py::arg("minConstValue") = -1.0,
       py::arg("nbProgramConstant") = 0, py::arg("pConstantMutation") = 0.0,
-      py::arg("pMutateOutput") = 0.0, py::arg("nbLayers") = 3,
+      py::arg("pMutateOutput") = 0.5, py::arg("nbLayers") = 10,
       py::arg("nbNodesPerLayer") = 5, py::arg("pMutateNode") = 0.1);
   register_common_methods(cgp);
 
@@ -91,10 +91,10 @@ void add_algorithms(py::module_ m) {
   tgp.def(py::init<const std::vector<Instructions::Instruction *> &, size_t,
                    double, double, size_t, double, double, double, size_t,
                    size_t, size_t>(),
-          py::arg("instructions"), py::kw_only(), py::arg("nbAgents") = 100,
+          py::arg("instructions"), py::kw_only(), py::arg("nb_agents") = 100,
           py::arg("maxConstValue") = 1.0, py::arg("minConstValue") = -1.0,
           py::arg("nbProgramConstant") = 0, py::arg("pConstantMutation") = 0.0,
-          py::arg("pMutate") = 1.0, py::arg("pMutateOutput") = 0.0,
+          py::arg("pMutate") = 1.0, py::arg("pMutateOutput") = 0.5,
           py::arg("maxDepth") = 5, py::arg("maxInitDepth") = 3,
           py::arg("maxNbEdgePerNode") = 2);
   register_common_methods(tgp);
@@ -102,10 +102,10 @@ void add_algorithms(py::module_ m) {
   auto tpg = py::class_<PyTPG, Algorithm::Algorithm>(m, "TPG");
   tpg.def(py::init<const Algorithm::Algorithm &, size_t, size_t, double, bool,
                    size_t, size_t, double, double, double, double, double>(),
-          py::arg("programAlgorithm"), py::kw_only(), py::arg("nbAgents") = 100,
+          py::arg("programAlgorithm"), py::kw_only(), py::arg("nb_agents") = 100,
           py::arg("archiveSize") = 50, py::arg("archivingProbability") = 0.05,
           py::arg("forceProgramBehaviorChangeOnMutation") = false,
-          py::arg("maxInitOutgoingEdges") = 3, py::arg("maxOutgoingEdges") = 30,
+          py::arg("maxInitOutgoingEdges") = 2, py::arg("maxOutgoingEdges") = 30,
           py::arg("pEdgeAddition") = 0.7, py::arg("pEdgeDeletion") = 0.7,
           py::arg("pEdgeDestinationChange") = 0.1,
           py::arg("pEdgeDestinationIsAction") = 0.9,
@@ -117,7 +117,7 @@ void add_algorithms(py::module_ m) {
                      size_t, double, double, double, double, double, double,
                      double>(),
             py::arg("programAlgorithm"), py::kw_only(),
-            py::arg("nbAgents") = 100, py::arg("archiveSize") = 50,
+            py::arg("nb_agents") = 100, py::arg("archiveSize") = 50,
             py::arg("archivingProbability") = 0.05,
             py::arg("forceProgramBehaviorChangeOnMutation") = false,
             py::arg("nbActionEdgeInit") = 0, py::arg("pActionEdgeAddition") = 0.0,
@@ -130,7 +130,7 @@ void add_algorithms(py::module_ m) {
   atpg.def(
       py::init<const Algorithm::Algorithm &, const Algorithm::Algorithm &, size_t, size_t, double, bool,
                    size_t, size_t, double, double, double, double, double, double>(),
-          py::arg("contextProgramAlgorithm"), py::arg("actionProgramAlgorithm"), py::kw_only(), py::arg("nbAgents") = 100,
+          py::arg("contextProgramAlgorithm"), py::arg("actionProgramAlgorithm"), py::kw_only(), py::arg("nb_agents") = 100,
           py::arg("archiveSize") = 50, py::arg("archivingProbability") = 0.05,
           py::arg("forceProgramBehaviorChangeOnMutation") = false,
           py::arg("maxInitOutgoingEdges") = 3, py::arg("maxOutgoingEdges") = 30,

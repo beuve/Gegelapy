@@ -26,9 +26,15 @@ Trainer::Trainer(GymEnvironment &env, Algorithm::Algorithm &algorithm,
   this->params.maxNbEvaluationPerPolicy = maxNbEvaluationPerPolicy;
   this->params.nbIterationsPerPolicyEvaluation =
       nbIterationsPerPolicyEvaluation;
-  this->params.nbIterationsPerPolicyEvaluation =
+  this->params.nbIterationsPerPolicyValidation =
       nbIterationsPerPolicyValidation;
   this->params.stepValidation = stepValidation;
+
+
+  if(this->params.maxNbEvaluationPerPolicy < this->params.nbIterationsPerPolicyEvaluation) {
+    this->params.maxNbEvaluationPerPolicy = this->params.nbIterationsPerPolicyEvaluation;
+  }
+
 
   agent = std::make_unique<Learn::ParallelLearningAgent>(env, algorithm, std::make_unique<Learn::LearningParameters>(this->params));
   agent->init(seed);
