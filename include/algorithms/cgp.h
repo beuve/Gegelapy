@@ -10,7 +10,7 @@ public:
         double maxConstValue, double minConstValue,
         size_t nbProgramConstant,
         double pConstantMutation,
-        double pMutateOutput, size_t nbLayers, size_t nbNodesPerLayer, double pMutateNode)
+        double pMutateOutput, size_t nbLayers, size_t nbNodesPerLayer, double pMutateNode, bool forceProgramBehaviorChangeOnMutation)
       : CGPAlgorithm(instructionSet) {
 
     params->nbAgents = nbAgents;
@@ -22,6 +22,7 @@ public:
     params->cgp.nbLayers = nbLayers;
     params->cgp.nbNodesPerLayer = nbNodesPerLayer;
     params->cgp.pMutateNode = pMutateNode;
+    params->lgp.forceProgramBehaviorChangeOnMutation = forceProgramBehaviorChangeOnMutation;
 
     py::gil_scoped_acquire acquire;
     // Build the instruction set from provided list

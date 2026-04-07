@@ -64,47 +64,46 @@ void add_algorithms(py::module_ m) {
   auto lgp = py::class_<PyLGP, Algorithm::Algorithm>(m, "LGP");
   lgp.def(py::init<const std::vector<Instructions::Instruction *> &, size_t,
                    size_t, size_t, double, double, size_t, size_t, size_t,
-                   double, double, double, double, double, double, double>(),
+                   double, double, double, double, double, double, double, bool>(),
           py::arg("instructions"), py::kw_only(), py::arg("nb_agents") = 100,
-          py::arg("init_max_program_size") = 5,
+          py::arg("init_max_program_size") = 10,
           py::arg("init_min_program_size") = 1, py::arg("maxConstValue") = 1.0,
           py::arg("minConstValue") = -1.0, py::arg("maxProgramSize") = 40,
           py::arg("nbProgramConstant") = 0, py::arg("nbRegisters") = 8,
           py::arg("pAdd") = 0.5, py::arg("pDelete") = 0.5,
           py::arg("pConstantMutation") = 0.4, py::arg("pMutate") = 1.0,
           py::arg("pMutateOutput") = 0.5, py::arg("pNewProgram") = 0.0,
-          py::arg("pSwap") = 1.0);
+          py::arg("pSwap") = 1.0, py::arg("forceProgramBehaviorChangeOnMutation") = false);
   register_common_methods(lgp);
 
   auto cgp = py::class_<PyCGP, Algorithm::Algorithm>(m, "CGP");
   cgp.def(
       py::init<const std::vector<Instructions::Instruction *> &, size_t, double,
-               double, size_t, double, double, size_t, size_t, double>(),
+               double, size_t, double, double, size_t, size_t, double, bool>(),
       py::arg("instructions"), py::kw_only(), py::arg("nb_agents") = 100,
       py::arg("maxConstValue") = 1.0, py::arg("minConstValue") = -1.0,
       py::arg("nbProgramConstant") = 0, py::arg("pConstantMutation") = 0.0,
       py::arg("pMutateOutput") = 0.5, py::arg("nbLayers") = 10,
-      py::arg("nbNodesPerLayer") = 5, py::arg("pMutateNode") = 0.1);
+      py::arg("nbNodesPerLayer") = 3, py::arg("pMutateNode") = 0.1, py::arg("forceProgramBehaviorChangeOnMutation") = false);
   register_common_methods(cgp);
 
   auto tgp = py::class_<PyTGP, Algorithm::Algorithm>(m, "TGP");
   tgp.def(py::init<const std::vector<Instructions::Instruction *> &, size_t,
                    double, double, size_t, double, double, double, size_t,
-                   size_t, size_t>(),
+                   size_t, size_t, bool>(),
           py::arg("instructions"), py::kw_only(), py::arg("nb_agents") = 100,
           py::arg("maxConstValue") = 1.0, py::arg("minConstValue") = -1.0,
           py::arg("nbProgramConstant") = 0, py::arg("pConstantMutation") = 0.0,
           py::arg("pMutate") = 1.0, py::arg("pMutateOutput") = 0.5,
           py::arg("maxDepth") = 5, py::arg("maxInitDepth") = 3,
-          py::arg("maxNbEdgePerNode") = 2);
+          py::arg("maxNbEdgePerNode") = 2, py::arg("forceProgramBehaviorChangeOnMutation") = false);
   register_common_methods(tgp);
 
   auto tpg = py::class_<PyTPG, Algorithm::Algorithm>(m, "TPG");
-  tpg.def(py::init<const Algorithm::Algorithm &, size_t, size_t, double, bool,
+  tpg.def(py::init<const Algorithm::Algorithm &, size_t, size_t, double,
                    size_t, size_t, double, double, double, double, double>(),
           py::arg("programAlgorithm"), py::kw_only(), py::arg("nb_agents") = 100,
           py::arg("archiveSize") = 50, py::arg("archivingProbability") = 0.05,
-          py::arg("forceProgramBehaviorChangeOnMutation") = false,
           py::arg("maxInitOutgoingEdges") = 2, py::arg("maxOutgoingEdges") = 30,
           py::arg("pEdgeAddition") = 0.7, py::arg("pEdgeDeletion") = 0.7,
           py::arg("pEdgeDestinationChange") = 0.1,
@@ -113,13 +112,12 @@ void add_algorithms(py::module_ m) {
   register_common_methods(tpg);
 
   auto maple = py::class_<PyMaple, Algorithm::Algorithm>(m, "Maple");
-  maple.def(py::init<const Algorithm::Algorithm &, size_t, size_t, double, bool,
+  maple.def(py::init<const Algorithm::Algorithm &, size_t, size_t, double,
                      size_t, double, double, double, double, double, double,
                      double>(),
             py::arg("programAlgorithm"), py::kw_only(),
             py::arg("nb_agents") = 100, py::arg("archiveSize") = 50,
             py::arg("archivingProbability") = 0.05,
-            py::arg("forceProgramBehaviorChangeOnMutation") = false,
             py::arg("nbActionEdgeInit") = 0, py::arg("pActionEdgeAddition") = 0.0,
             py::arg("pActionEdgeDeletion") = 0.0, py::arg("pChangeActionClass") = 0.1,
             py::arg("pCrossAgents") = 0.7, py::arg("pCrossPrograms") = 0.5,
@@ -128,11 +126,10 @@ void add_algorithms(py::module_ m) {
 
   auto atpg = py::class_<PyATPG, Algorithm::Algorithm>(m, "ATPG");
   atpg.def(
-      py::init<const Algorithm::Algorithm &, const Algorithm::Algorithm &, size_t, size_t, double, bool,
+      py::init<const Algorithm::Algorithm &, const Algorithm::Algorithm &, size_t, size_t, double,
                    size_t, size_t, double, double, double, double, double, double>(),
           py::arg("contextProgramAlgorithm"), py::arg("actionProgramAlgorithm"), py::kw_only(), py::arg("nb_agents") = 100,
           py::arg("archiveSize") = 50, py::arg("archivingProbability") = 0.05,
-          py::arg("forceProgramBehaviorChangeOnMutation") = false,
           py::arg("maxInitOutgoingEdges") = 3, py::arg("maxOutgoingEdges") = 30,
           py::arg("pEdgeAddition") = 0.7, py::arg("pEdgeDeletion") = 0.7,
           py::arg("pEdgeDestinationChange") = 0.1,

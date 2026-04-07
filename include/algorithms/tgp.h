@@ -10,7 +10,7 @@ public:
         size_t nbAgents, double maxConstValue, double minConstValue,
         size_t nbProgramConstant, double pConstantMutation, double pMutate,
         double pMutateOutput, size_t maxDepth, size_t maxInitDepth,
-        size_t maxNbEdgePerNode)
+        size_t maxNbEdgePerNode, bool forceProgramBehaviorChangeOnMutation)
       : TGPAlgorithm(instructionSet) {
 
     params->nbAgents = nbAgents;
@@ -23,6 +23,7 @@ public:
     params->tgp.maxDepth = maxDepth;
     params->tgp.maxInitDepth = maxInitDepth;
     params->tgp.maxNbEdgePerNode = maxNbEdgePerNode;
+    params->lgp.forceProgramBehaviorChangeOnMutation = forceProgramBehaviorChangeOnMutation;
 
     py::gil_scoped_acquire acquire;
     // Build the instruction set from provided list

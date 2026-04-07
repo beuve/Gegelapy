@@ -5,7 +5,7 @@
 class PyTPG : public Algorithm::TPGAlgorithm {
 public:
   PyTPG(const Algorithm &programAlgorithm, size_t nbAgents, size_t archiveSize,
-        double archivingProbability, bool forceProgramBehaviorChangeOnMutation,
+        double archivingProbability,
         size_t maxInitOutgoingEdges, size_t maxOutgoingEdges,
         double pEdgeAddition, double pEdgeDeletion,
         double pEdgeDestinationChange, double pEdgeDestinationIsAction,
@@ -14,8 +14,6 @@ public:
     params->nbAgents = nbAgents;
     params->tpg.archiveSize = archiveSize;
     params->tpg.archivingProbability = archivingProbability;
-    params->tpg.forceProgramBehaviorChangeOnMutation =
-        forceProgramBehaviorChangeOnMutation;
     params->tpg.maxInitOutgoingEdges = maxInitOutgoingEdges;
     params->tpg.maxOutgoingEdges = maxOutgoingEdges;
     params->tpg.pEdgeAddition = pEdgeAddition;
