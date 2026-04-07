@@ -6,7 +6,7 @@ class PyMaple : public Algorithm::MapleAlgorithm {
 public:
   PyMaple(const Algorithm &programAlgorithm, size_t nbAgents,
           size_t archiveSize, double archivingProbability,
-          bool forceProgramBehaviorChangeOnMutation, size_t nbActionEdgeInit,
+          size_t nbActionEdgeInit,
           double pActionEdgeAddition, double pActionEdgeDeletion,
           double pChangeActionClass, double pCrossAgents, double pCrossPrograms,
           double pMutateActionProgram, double pSwapActionProgram)
@@ -14,8 +14,6 @@ public:
     params->nbAgents = nbAgents;
     params->tpg.archiveSize = archiveSize;
     params->tpg.archivingProbability = archivingProbability;
-    params->tpg.forceProgramBehaviorChangeOnMutation =
-        forceProgramBehaviorChangeOnMutation;
     params->maple.nbActionEdgeInit = nbActionEdgeInit;
     params->maple.pActionEdgeAddition = pActionEdgeAddition;
     params->maple.pActionEdgeDeletion = pActionEdgeDeletion;

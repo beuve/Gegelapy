@@ -13,7 +13,7 @@ public:
         double maxConstValue, double minConstValue, size_t maxProgramSize,
         size_t nbProgramConstant, size_t nbRegisters, double pAdd,
         double pDelete, double pConstantMutation, double pMutate,
-        double pMutateOutput, double pNewProgram, double pSwap)
+        double pMutateOutput, double pNewProgram, double pSwap, bool forceProgramBehaviorChangeOnMutation)
       : LGPAlgorithm(instructionSet) {
 
     params->nbAgents = nbAgents;
@@ -31,6 +31,7 @@ public:
     params->lgp.pMutateOutput = pMutateOutput;
     params->lgp.pNewProgram = pNewProgram;
     params->lgp.pSwap = pSwap;
+    params->lgp.forceProgramBehaviorChangeOnMutation = forceProgramBehaviorChangeOnMutation;
 
     py::gil_scoped_acquire acquire;
     // Build the instruction set from provided list
